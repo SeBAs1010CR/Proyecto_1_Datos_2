@@ -1,0 +1,23 @@
+# Compilados
+*.o
+*.out
+*.exe
+
+# Ejecutables
+generator
+sorter
+
+# Carpeta de build
+build/
+
+# Archivos binarios grandes
+*.bin
+*.dat
+
+# Archivos de texto generados
+*.txt
+
+# macOS
+.DS_Store
+
+
