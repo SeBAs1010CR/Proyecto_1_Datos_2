@@ -25,7 +25,8 @@ private:
     int findPageInMemory(int pageNumber); // busca si ya esta cargada
     int getFreeFrame(); // busca un frame vacio 
     void loadPage(int pageNumber); //carga pag desde el arch a la memor
-    
+    void flushPage(int frame); // guarda pag de la memoria al arch
+    void printStats(); // imprime stats de hits y faults
 
 public:
     int& operator[](long long index); // operador para usar arr[]
