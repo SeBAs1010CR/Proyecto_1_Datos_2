@@ -26,10 +26,15 @@ private:
     int getFreeFrame(); // busca un frame vacio 
     void loadPage(int pageNumber); //carga pag desde el arch a la memor
     void flushPage(int frame); // guarda pag de la memoria al arch
-    void printStats(); // imprime stats de hits y faults
-
+    
 public:
     int& operator[](long long index); // operador para usar arr[]
+    void printStats(); // imprime stats de hits y faults
+    int get(long long index); // obtiene el valor en un índice específico
+    void set(long long index, int value); // establece el valor en un índice específico
+    void flushAll(); // guarda todas las páginas modificadas
+    int accessFrame(long long index, bool isWrite); // accede al frame en memoria correspondiente al índice
+
 
     //builder
     PagedArray(const string& filepath,
