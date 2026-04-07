@@ -6,7 +6,29 @@
 
 using namespace std;
 
+void exportarATexto(const string& binFile, const string& txtFile)
+{
+    ifstream in(binFile, ios::binary);
+    ofstream out(txtFile);
 
+    if (!in || !out)
+    {
+        cout << "Error abriendo archivos\n";
+        return;
+    }
+
+    int value;
+
+    while (in.read(reinterpret_cast<char*>(&value), sizeof(int)))
+    {
+        out << value << " ";
+    }
+
+    in.close();
+    out.close();
+
+    cout << "Archivo exportado a texto: " << txtFile << endl;
+}
 int main(int argc, char* argv[]) {
 
     srand(time(NULL));
@@ -39,7 +61,7 @@ int main(int argc, char* argv[]) {
         
     }
     if (size.empty() || outputpath.empty()) {
-            cout << "Error argumento invalido. Por favor especifique el tamano y la direccion del archivo de la siguiente forma:  generator –size <SIZE> -output <OUTPUT FILE PATH>" << endl;
+            cout << "Error argumento invalido. Por favor especifique el tamano y la direccion del archivo de la siguiente forma:  generator -size <SIZE> -output <OUTPUT FILE PATH>" << endl;
             return -1;
         }
     
@@ -48,17 +70,19 @@ int main(int argc, char* argv[]) {
     outputpath += ".bin";
     }
     
-    
+    if(size == "SMALLTEST"){
+        bytes = 2 * KB * KB;
+    }
     if(size == "SMALL"){
-        bytes = 512 * KB * KB;
+        bytes = 256 * KB * KB;
     }
     if(size == "MEDIUM"){
-        bytes = 1 * KB * KB * KB;
+        bytes = 512 * KB * KB;
     }
     if(size == "LARGE"){
-        bytes = 2 * KB * KB * KB;
+        bytes = 1LL * KB * KB * KB;
     }
-    if (size != "SMALL" && size != "MEDIUM" && size != "LARGE" ){
+    if (size != "SMALLTEST" && size != "SMALL" && size != "MEDIUM" && size != "LARGE" ){
         cout << "El tamaño especificado no es válido solo se acepta: SMALL, MEDIUM y LARGE" << endl;
         return -1;
     }
@@ -79,6 +103,7 @@ int main(int argc, char* argv[]) {
 
     }
     file.close();
+    exportarATexto(outputpath, "test.txt");
     cout << "Archivo creado y cerrado exitosamente" << endl;
 
     return 0;

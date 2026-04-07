@@ -73,7 +73,7 @@ void PagedArray::loadPage(int pageNumber)
 
     if (frame == -1)
     {
-        cout << "No hay espacio libre reemplazando...\n";
+        //cout << "No hay espacio libre reemplazando...\n";
         frame = nextVictim;
         if(dirtyPages[frame])
         {
@@ -103,7 +103,7 @@ void PagedArray::loadPage(int pageNumber)
     
     dirtyPages[frame] = false; 
     pageFaults++;
-    cout << "Cargando pagina: " << pageNumber << endl;
+    //cout << "Cargando pagina: " << pageNumber << endl;
 }
 void PagedArray::flushPage(int frame)
 {
@@ -125,37 +125,62 @@ void PagedArray::flushPage(int frame)
     file.close();
 
     dirtyPages[frame] = false; // marca la página como limpia después de guardarla
-    cout << "Guardando pagina: " << pageNumber << endl;
+    //cout << "Guardando pagina: " << pageNumber << endl;
     return;
 }
-int& PagedArray::operator[](long long index)
-{
-    if (index < 0 || index >= totalElements)
-    {
-        cout << "Indice fuera de rango\n";
-        exit(1);
+
+void PagedArray::flushAll() {
+    for (int i = 0; i < pageCount; i++) {
+        if (loadedPages[i] != -1 && dirtyPages[i]) {
+            flushPage(i);
+        }
     }
+}
+// Devuelve el frame en memoria correspondiente al índice, cargando la página si es necesario
+int PagedArray::accessFrame(long long index, bool isWrite)
+{
     long long pageNumber = index / pageSize;
     int offset = index % pageSize;
 
     int frame = findPageInMemory(pageNumber);
 
-    if (frame != -1)
-    {
-        pageHits++;
-    }
-    else
-    {
-        loadPage(pageNumber);
+    if (frame != -1) {
+        pageHits++; // página ya estaba en memoria → hit
+    } else {
+        loadPage(pageNumber);  // no estaba → pageFaults sumado dentro de loadPage
         frame = findPageInMemory(pageNumber);
-        if (frame == -1)
-        {
+        if (frame == -1) {
             cout << "Error: no se pudo cargar la pagina\n";
             exit(1);
         }
     }
-    cout << "Page: " << pageNumber << " Frame: " << frame << endl;
-    dirtyPages[frame] = true; // marca la página como sucia cada vez que se accede a ella para modificarla
+
+    if (isWrite) dirtyPages[frame] = true; // marcar como modificada si es escritura
+
+    return frame;
+}
+
+// Getter
+int PagedArray::get(long long index)
+{
+    int frame = accessFrame(index, false);
+    int offset = index % pageSize;
+    return pages[frame][offset];
+}
+
+// Setter
+void PagedArray::set(long long index, int value)
+{
+    int frame = accessFrame(index, true);
+    int offset = index % pageSize;
+    pages[frame][offset] = value;
+}
+
+// Operator[]
+int& PagedArray::operator[](long long index)
+{
+    int frame = accessFrame(index, true);
+    int offset = index % pageSize;
     return pages[frame][offset];
 }
 
