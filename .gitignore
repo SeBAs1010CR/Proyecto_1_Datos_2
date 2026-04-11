@@ -6,6 +6,7 @@
 # Ejecutables
 generator
 sorter
+main
 
 # Carpeta de build
 build/
