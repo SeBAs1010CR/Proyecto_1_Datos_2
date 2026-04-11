@@ -89,5 +89,5 @@ El programa al finalizar genera un archivo de salida.txt y salida.bin para verif
 
 4. Consejos de uso
 Para archivos muy grandes (>1 GB), es recomendable usar QUICK y ajustar page_size para que las páginas sean lo suficientemente grandes y minimizar page faults.
-Para pruebas rápidas, usar SMALL y INSERTION o SELECTION.
+Para pruebas rápidas, usar SMALL.
 Para pruebas Ultra rápidas usar SMALLTEST.
