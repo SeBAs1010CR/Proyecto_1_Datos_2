@@ -48,9 +48,8 @@ Argumentos
 
 <archivo_binario>: ruta del archivo generado por el generador.
 <algoritmo>: algoritmo de ordenamiento:
-SELECTION → Selection Sort
-INSERTION → Insertion Sort
-QUICK → Quick Sort
+merge → Merge Sort
+quick → Quick Sort
 <page_size>: número de enteros por página (ejemplo: 1024).
 <page_count>: número de páginas en memoria simultáneamente (frames).
 
