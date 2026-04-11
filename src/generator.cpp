@@ -71,7 +71,13 @@ int main(int argc, char* argv[]) {
     }
     
     if(size == "SMALLTEST"){
-        bytes = 2 * KB * KB;
+        bytes = 32 * KB * KB;
+    }
+    if(size == "MEDIUMTEST"){
+        bytes = 64 * KB * KB;
+    }
+    if(size == "LARGETEST"){
+        bytes = 128 * KB * KB;
     }
     if(size == "SMALL"){
         bytes = 256 * KB * KB;
@@ -82,13 +88,13 @@ int main(int argc, char* argv[]) {
     if(size == "LARGE"){
         bytes = 1LL * KB * KB * KB;
     }
-    if (size != "SMALLTEST" && size != "SMALL" && size != "MEDIUM" && size != "LARGE" ){
+    if (size != "SMALLTEST" && size != "MEDIUMTEST" && size != "LARGETEST" && size != "SMALL" && size != "MEDIUM" && size != "LARGE" ){
         cout << "El tamaño especificado no es válido solo se acepta: SMALL, MEDIUM y LARGE" << endl;
         return -1;
     }
     
     integers = bytes / sizeof(int);
-    cout << integers << endl;
+    cout << "Total de enteros: " << integers << endl;
 
 
     file.open(outputpath, ios::binary);
@@ -103,7 +109,7 @@ int main(int argc, char* argv[]) {
 
     }
     file.close();
-    exportarATexto(outputpath, "test.txt");
+    exportarATexto(outputpath, "data.txt");
     cout << "Archivo creado y cerrado exitosamente" << endl;
 
     return 0;

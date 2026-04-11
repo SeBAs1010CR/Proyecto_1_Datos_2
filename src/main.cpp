@@ -123,11 +123,11 @@ int main(int argc, char* argv[])
         PagedArray arr(outputPath, totalElements, pageSize, pageCount);
        
         // Selección de algoritmo
-        if (algoritmo == "selection")
+        if (algoritmo == "merge")
     
         {
             auto start = std::chrono::high_resolution_clock::now();
-            Sorter::selectionSort(arr, totalElements);
+            Sorter::mergeSort(arr, 0, totalElements - 1);
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
             long long total_ms = duration.count();
@@ -140,23 +140,6 @@ int main(int argc, char* argv[])
             << seconds << "s "
             << milliseconds << "ms\n";
                 
-        }
-        else if (algoritmo == "insertion")
-        {
-            auto start = std::chrono::high_resolution_clock::now();
-            Sorter::insertionSort(arr, totalElements);
-            auto end = std::chrono::high_resolution_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-            long long total_ms = duration.count();
-
-            long long minutes = total_ms / 60000;
-            long long seconds = (total_ms % 60000) / 1000;
-            long long milliseconds = total_ms % 1000;
-            cout << "Tiempo de ejecucion: "
-            << minutes << "m "
-            << seconds << "s "
-            << milliseconds << "ms\n";
-            
         }
         else if (algoritmo == "quick")
         {

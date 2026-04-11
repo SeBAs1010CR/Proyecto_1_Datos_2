@@ -3,50 +3,60 @@
 
 using namespace std;
 
-void Sorter::selectionSort(PagedArray& arr, long long n)
+void Sorter::mergeSort(PagedArray& arr, long long left, long long right)
 {
-    for (long long i = 0; i < n - 1; i++)
-    {
-        long long minIndex = i;
+    if (left >= right)
+        return;
 
-        for (long long j = i + 1; j < n; j++)
-        {
-            if (arr.get(j) < arr.get(minIndex))
-            {
-                minIndex = j;
-            }
-        }
+    long long mid = (left + right) / 2;
 
-        if (minIndex != i)
-        {
-            int temp = arr.get(i);
-            arr.set(i, arr.get(minIndex));
-            arr.set(minIndex, temp);
-        }
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid + 1, right);
 
-        //cout << "Paso " << i + 1 << " completado" << endl;
-    }
+    merge(arr, left, mid, right);
 }
-void Sorter::insertionSort(PagedArray& arr, long long n) //[71, 19, 19, 3]
-{                                                      
-    for (long long i = 1; i < n; i++)
+void Sorter::merge(PagedArray& arr, long long left, long long mid, long long right)
+{
+    long long size = right - left + 1;
+    int* temp = new int[size];  // buffer en RAM
+
+    long long i = left;
+    long long j = mid + 1;
+    long long k = 0;
+
+    // Mezclar ambas mitades
+    while (i <= mid && j <= right)
     {
-        int key = arr.get(i);   // elemento a insertar 
-        long long j = i - 1;
-
-        // mover elementos mayores hacia la derecha
-        while (j >= 0 && arr.get(j) > key)
+        if (arr[i] <= arr[j])   // 🔥 acceso a PagedArray
         {
-            arr.set(j + 1, arr.get(j)); // desplaza el elemento hacia la derecha
-            j--; // mueve el índice hacia la izquierda
+            temp[k++] = arr[i++];
         }
-
-        // insertar en posición correcta
-        arr.set(j + 1, key); // coloca la clave en su posición final    
-
-        //cout << "Paso " << i << " completado" << endl;
+        else
+        {
+            temp[k++] = arr[j++];
+        }
     }
+
+    // Copiar lo restante
+    while (i <= mid)
+    {
+        temp[k++] = arr[i++];
+    }
+
+    while (j <= right)
+    {
+        temp[k++] = arr[j++];
+    }
+
+    // Copiar de vuelta al PagedArray
+    for (long long x = 0; x < size; x++)
+    {
+        arr[left + x] = temp[x];   // 🔥 escritura en PagedArray
+    }
+
+    delete[] temp;
 }
+
 long long partition(PagedArray& arr, long long low, long long high)
 {
     int pivot = arr.get(high);  // último elemento como pivot
