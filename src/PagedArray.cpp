@@ -79,11 +79,11 @@ void PagedArray::loadPage(int pageNumber)
         {
             flushPage(frame);
         }
-        nextVictim = (nextVictim + 1) % pageCount;
+        nextVictim = (nextVictim + 1) % pageCount; // va rotando circularmente
     }
 
 
-    long long offset = (long long)pageNumber * pageSize * sizeof(int); // calcula el desplazamiento en bytes para leer la página correcta
+    long long offset = (long long)pageNumber * pageSize * sizeof(int); // calcula el desplazamiento en bytes para leer la página correcta offset
 
     ifstream file(filepath, ios::binary);
 
@@ -181,7 +181,7 @@ int& PagedArray::operator[](long long index)
 {
     int frame = accessFrame(index, true);
     int offset = index % pageSize;
-    return pages[frame][offset];
+    return pages[frame][offset]; //ref al dato
 }
 
 void PagedArray::printStats()

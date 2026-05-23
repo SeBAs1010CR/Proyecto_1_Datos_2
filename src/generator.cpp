@@ -31,7 +31,7 @@ void exportarATexto(const string& binFile, const string& txtFile)
 }
 int main(int argc, char* argv[]) {
 
-    srand(time(NULL));
+    srand(time(NULL)); 
     string size;
     string outputpath;
     long long integers = 0;

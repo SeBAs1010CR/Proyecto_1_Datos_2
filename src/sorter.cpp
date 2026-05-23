@@ -27,7 +27,7 @@ void Sorter::merge(PagedArray& arr, long long left, long long mid, long long rig
     // Mezclar ambas mitades
     while (i <= mid && j <= right)
     {
-        if (arr[i] <= arr[j])   // 🔥 acceso a PagedArray
+        if (arr[i] <= arr[j])   //  acceso a PagedArray
         {
             temp[k++] = arr[i++];
         }
@@ -51,7 +51,7 @@ void Sorter::merge(PagedArray& arr, long long left, long long mid, long long rig
     // Copiar de vuelta al PagedArray
     for (long long x = 0; x < size; x++)
     {
-        arr[left + x] = temp[x];   // 🔥 escritura en PagedArray
+        arr[left + x] = temp[x];   // escritura en PagedArray
     }
 
     delete[] temp;
